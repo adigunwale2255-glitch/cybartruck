@@ -5,13 +5,11 @@ import {
   Shield, 
   Zap, 
   Gauge, 
-  Flame, 
-  MessageSquare, 
-  ChevronDown, 
   Volume2, 
-  Play, 
-  RotateCcw,
-  Sparkles
+  Sparkles,
+  ChevronDown,
+  Layers,
+  Award
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { cyberAudio } from '../lib/cyberAudio';
@@ -20,9 +18,17 @@ interface HeroProps {
   onExplore: () => void;
   onCustomize: () => void;
   onOpenCommunity: () => void;
+  onOpenModels: () => void;
+  onOpenOrder: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onExplore, onCustomize, onOpenCommunity }) => {
+export const Hero: React.FC<HeroProps> = ({ 
+  onExplore, 
+  onCustomize, 
+  onOpenCommunity, 
+  onOpenModels,
+  onOpenOrder 
+}) => {
   // Launch Control Simulator State
   const [isLaunching, setIsLaunching] = useState(false);
   const [speed, setSpeed] = useState(0);
@@ -36,8 +42,8 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onCustomize, onOpenCommun
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
-    const x = (clientX / window.innerWidth - 0.5) * 20;
-    const y = (clientY / window.innerHeight - 0.5) * 20;
+    const x = (clientX / window.innerWidth - 0.5) * 15;
+    const y = (clientY / window.innerHeight - 0.5) * 15;
     setMousePos({ x, y });
   };
 
@@ -58,7 +64,6 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onCustomize, onOpenCommun
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // Exponential curve for sports EV torque curve
       const currentSpeed = Math.round(progress * progress * 60);
       const currentTimer = (progress * 2.6).toFixed(2);
       
@@ -76,10 +81,10 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onCustomize, onOpenCommun
         setLaunchComplete(true);
 
         confetti({
-          particleCount: 70,
-          spread: 60,
+          particleCount: 80,
+          spread: 70,
           origin: { y: 0.7 },
-          colors: ['#ef4444', '#ffffff', '#cbd5e1']
+          colors: ['#ffffff', '#d1d5db', '#9ca3af', '#6b7280']
         });
       }
     };
@@ -98,280 +103,235 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onCustomize, onOpenCommun
   return (
     <section 
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex flex-col justify-between pt-24 pb-12 overflow-hidden bg-black select-none"
+      className="relative min-h-screen flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-zinc-900 select-none text-zinc-100"
     >
       
-      {/* Background Cyber Grid & Laser Lighting */}
+      {/* Background Cyber Grid & Metallic Horizon Lighting */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neutral-900/40 via-black to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900/60 via-zinc-950 to-black" />
         
-        {/* Subtle Cyber Red Horizon Laser Line */}
-        <div className="absolute top-[38%] left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-red-600/70 to-transparent shadow-[0_0_20px_rgba(239,68,68,0.9)]" />
+        {/* Titanium Silver Horizon Laser Line */}
+        <div className="absolute top-[36%] left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-400/80 to-transparent shadow-[0_0_20px_rgba(209,213,219,0.7)]" />
         
-        {/* Angular Exoskeleton Watermark Grid with Mouse Parallax */}
+        {/* Exoskeleton Geometry Grid with Mouse Parallax */}
         <div 
           style={{ transform: `translate(${mousePos.x}px, ${mousePos.y}px)` }}
           className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:4rem_4rem] transition-transform duration-200 ease-out" 
         />
 
-        {/* Ambient Red Glow at Top */}
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-red-600/10 blur-[140px] pointer-events-none" />
+        {/* Ambient Titanium Glow at Top */}
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-zinc-400/10 blur-[150px] pointer-events-none" />
       </div>
 
-      {/* Main Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-12 w-full">
+      {/* Main Website Hero Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-10 w-full">
         
         {/* Top Status Pill */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="inline-flex items-center gap-2.5 px-3 py-1.5 bg-neutral-900/90 border border-neutral-800 rounded-sm clip-badge">
-            <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
-            <span className="text-[11px] font-mono font-bold tracking-widest text-neutral-300 uppercase">
-              CYBERFORGE PLATFORM • SERIES 2026 ACTIVE
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 bg-zinc-900/90 border border-zinc-700/80 rounded-sm clip-badge shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-zinc-300 animate-ping" />
+            <span className="text-[11px] font-mono font-bold tracking-widest text-zinc-200 uppercase">
+              CYBERFORGE OFFICIAL PLATFORM • 2026 VEHICLE FLEET
             </span>
           </div>
 
           <button
             onClick={() => cyberAudio.playHorn()}
-            className="text-[10px] font-mono text-neutral-400 hover:text-red-400 border border-neutral-800/80 bg-neutral-950/80 px-2.5 py-1 rounded flex items-center gap-1.5 transition-colors"
+            className="text-[10px] font-mono text-zinc-400 hover:text-white border border-zinc-800 bg-zinc-950/80 px-2.5 py-1.5 rounded flex items-center gap-1.5 transition-colors"
             title="Sound Cybertruck Horn"
           >
-            <Volume2 className="w-3 h-3 text-red-500" />
+            <Volume2 className="w-3 h-3 text-zinc-400" />
             <span>Horn Test</span>
           </button>
         </div>
 
-        {/* Cinematic Headline */}
+        {/* Cinematic Automotive Headline */}
         <div className="max-w-4xl space-y-4">
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white uppercase font-sans leading-[0.95]">
             BUILT FOR THE <br />
-            <span className="text-metallic drop-shadow-[0_4px_25px_rgba(255,255,255,0.15)]">
+            <span className="text-metallic drop-shadow-[0_4px_30px_rgba(255,255,255,0.2)]">
               UNEXPECTED.
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl text-neutral-400 font-light max-w-2xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl font-sans leading-relaxed">
             Ultra-hard 30X cold-rolled stainless steel exoskeleton. Shatter-resistant armor glass. 
-            0-60 mph in 2.6 seconds with tri-motor Cyberbeast performance. 
-            Customize your rig and connect with the global Cybertruck community.
+            0-60 mph in 2.6 seconds with tri-motor Cyberbeast powertrain. Configure, inspect, and reserve your vehicle today.
           </p>
-
-          {/* Action Buttons */}
-          <div className="pt-4 flex flex-wrap items-center gap-4">
-            <button
-              onClick={() => {
-                cyberAudio.playClick(1400);
-                onCustomize();
-              }}
-              className="px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-mono text-sm font-bold uppercase tracking-widest clip-chamfer transition-all duration-200 shadow-red-glow flex items-center gap-3 group"
-            >
-              <Sliders className="w-4 h-4 text-white group-hover:rotate-45 transition-transform" />
-              <span>Launch 3D Customizer</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <button
-              onClick={() => {
-                cyberAudio.playClick(900);
-                onExplore();
-              }}
-              className="px-8 py-4 bg-neutral-950 hover:bg-neutral-900 text-neutral-200 hover:text-white font-mono text-sm font-bold uppercase tracking-widest border border-neutral-800 hover:border-neutral-600 clip-chamfer transition-all duration-200 flex items-center gap-2"
-            >
-              <span>Explore Features</span>
-            </button>
-
-            <button
-              onClick={() => {
-                cyberAudio.playClick(1100);
-                onOpenCommunity();
-              }}
-              className="px-6 py-4 bg-neutral-900/60 hover:bg-neutral-900 text-red-500 hover:text-red-400 font-mono text-xs font-bold uppercase tracking-wider border border-red-950 hover:border-red-800 clip-chamfer transition-all flex items-center gap-2"
-            >
-              <MessageSquare className="w-4 h-4" />
-              <span>Community Chat</span>
-            </button>
-          </div>
         </div>
 
-        {/* Hero Visual Presentation + Interactive Launch Simulator Overlay */}
-        <div className="relative mt-8 lg:mt-6 w-full flex justify-center">
+        {/* Website Action CTAs */}
+        <div className="flex flex-wrap items-center gap-4 pt-4 pb-8">
+          <button
+            onClick={() => {
+              cyberAudio.playClick(1000);
+              onCustomize();
+            }}
+            className="flex items-center gap-2.5 px-7 py-3.5 bg-zinc-200 hover:bg-white text-zinc-950 font-black text-xs font-mono uppercase tracking-wider rounded-sm transition-all duration-200 shadow-lg hover:shadow-zinc-300/30 group"
+          >
+            <Sliders className="w-4 h-4" />
+            <span>Launch 3D Configurator</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          <button
+            onClick={() => {
+              cyberAudio.playClick(900);
+              onOpenModels();
+            }}
+            className="flex items-center gap-2 px-6 py-3.5 bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white font-mono text-xs uppercase tracking-wider rounded-sm transition-colors"
+          >
+            <span>Explore Models & Pricing</span>
+          </button>
+
+          <button
+            onClick={() => {
+              cyberAudio.playClick(900);
+              onExplore();
+            }}
+            className="flex items-center gap-2 px-6 py-3.5 bg-zinc-950/60 hover:bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 font-mono text-xs uppercase tracking-wider rounded-sm transition-colors"
+          >
+            <span>Exoskeleton Specs</span>
+          </button>
+        </div>
+
+        {/* Centerpiece Showcase Stage with Live 0-60 Launch HUD */}
+        <div className="relative mt-4 bg-zinc-900/40 border border-zinc-800 rounded-sm p-6 sm:p-8 backdrop-blur-sm shadow-2xl">
           
-          <div className="relative max-w-4xl w-full">
-            <div className={`relative rounded-lg overflow-hidden border border-neutral-800/80 bg-neutral-950 shadow-[0_20px_50px_rgba(0,0,0,0.9)] group transition-transform duration-200 ${
-              isLaunching ? 'scale-[1.01] translate-x-[1px]' : ''
-            }`}>
-              <img
-                src="/cyberforge-logo.jpg"
-                alt="CyberForge Cybertruck Showcase"
-                className={`w-full h-auto object-cover max-h-[520px] transition-all duration-700 ${
-                  isLaunching ? 'brightness-110 contrast-125' : 'group-hover:scale-[1.01]'
-                }`}
-              />
-              
-              {/* Subtle Red Edge Accent */}
-              <div className="absolute inset-0 border border-red-600/20 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
-
-              {/* INTERACTIVE 0-60 LAUNCH CONTROL HUD DOCK */}
-              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-black/85 backdrop-blur-md border border-neutral-800 rounded p-3 font-mono text-xs shadow-2xl flex flex-col gap-2 min-w-[200px]">
-                <div className="flex items-center justify-between border-b border-neutral-800 pb-1.5">
-                  <span className="text-[10px] text-red-500 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                    <Flame className="w-3.5 h-3.5 text-red-500" />
-                    LAUNCH TELEMETRY
-                  </span>
-                  <span className="text-[10px] text-neutral-400">
-                    {isLaunching ? 'ENGAGED' : 'STANDBY'}
-                  </span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left: Vehicle Emblem Stage */}
+            <div className="lg:col-span-7 flex flex-col items-center justify-center relative min-h-[220px]">
+              <div className="relative w-full max-w-md aspect-[16/9] flex items-center justify-center">
+                <img
+                  src="/cyberforge-logo.jpg"
+                  alt="CyberForge Custom Emblem"
+                  className="max-h-48 w-auto object-contain drop-shadow-[0_15px_35px_rgba(0,0,0,0.9)] rounded border border-zinc-700/60"
+                />
+                
+                {/* Steer-by-wire and Active Air Badge */}
+                <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between text-[10px] font-mono text-zinc-400 bg-zinc-950/80 px-3 py-1.5 border border-zinc-800 rounded">
+                  <span>STEER-BY-WIRE & 4-WHEEL STEERING</span>
+                  <span className="text-zinc-200 font-bold">17.4" GROUND CLEARANCE</span>
                 </div>
-
-                <div className="flex items-end justify-between">
-                  <div>
-                    <span className="text-[9px] text-neutral-500 block uppercase">VELOCITY</span>
-                    <div className="text-2xl font-black text-white font-mono leading-none">
-                      {speed} <span className="text-[10px] font-normal text-red-500">MPH</span>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="text-[9px] text-neutral-500 block uppercase">0-60 CLOCK</span>
-                    <div className="text-sm font-bold text-red-400 font-mono">
-                      {launchTimer}s
-                    </div>
-                  </div>
-                </div>
-
-                {/* Torque Progress Bar */}
-                <div className="w-full bg-neutral-900 h-1.5 rounded-full overflow-hidden border border-neutral-800">
-                  <div 
-                    className="h-full bg-gradient-to-r from-red-600 to-red-400 transition-all duration-75 shadow-red-glow-sm"
-                    style={{ width: `${(speed / 60) * 100}%` }}
-                  />
-                </div>
-
-                {/* Launch Button */}
-                <button
-                  onClick={triggerLaunch}
-                  disabled={isLaunching}
-                  className="w-full mt-1 py-1.5 bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-bold text-[10px] uppercase tracking-wider rounded clip-chamfer flex items-center justify-center gap-1.5 shadow-red-glow-sm transition-all"
-                >
-                  <Play className="w-3 h-3 fill-current" />
-                  <span>{isLaunching ? 'Launching...' : 'Test 0-60 Launch'}</span>
-                </button>
-
-                {launchComplete && (
-                  <div className="text-[10px] text-emerald-400 text-center font-bold animate-pulse">
-                    ✓ 0-60 ACHIEVED IN 2.6 SECONDS
-                  </div>
-                )}
-              </div>
-
-              {/* Live Status Overlay in Bottom Left */}
-              <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 flex items-center gap-3 bg-black/80 backdrop-blur-md px-4 py-2 border border-neutral-800 rounded">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
-                    CYBERBEAST EXOSKELETON
-                  </span>
-                  <span className="text-xs sm:text-sm font-mono font-bold text-white flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-                    30X COLD-ROLLED STEEL • BULLET TOUGH
-                  </span>
-                </div>
-              </div>
-
-              {/* Quick Action Overlay */}
-              <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 hidden sm:block">
-                <button
-                  onClick={() => {
-                    cyberAudio.playClick(1200);
-                    onCustomize();
-                  }}
-                  className="px-4 py-2 bg-red-600/90 hover:bg-red-600 text-white font-mono text-xs font-bold uppercase tracking-wider clip-chamfer transition-all shadow-red-glow-sm"
-                >
-                  Configure This Build
-                </button>
               </div>
             </div>
+
+            {/* Right: 0-60 Launch Control Telemetry Station */}
+            <div className="lg:col-span-5 bg-zinc-950 border border-zinc-800/90 p-5 rounded-sm space-y-4">
+              <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
+                <div className="flex items-center gap-2">
+                  <Gauge className="w-4 h-4 text-zinc-300" />
+                  <span className="text-xs font-mono font-bold tracking-wider text-zinc-200 uppercase">
+                    LAUNCH TELEMETRY
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
+                  CYBERBEAST
+                </span>
+              </div>
+
+              {/* Speedometer Gauges */}
+              <div className="grid grid-cols-3 gap-3 text-center py-2">
+                <div className="bg-zinc-900/70 p-3 rounded border border-zinc-800/80">
+                  <div className="text-[10px] font-mono text-zinc-400 uppercase">Velocity</div>
+                  <div className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight mt-1">
+                    {speed}
+                  </div>
+                  <div className="text-[9px] font-mono text-zinc-400">MPH</div>
+                </div>
+
+                <div className="bg-zinc-900/70 p-3 rounded border border-zinc-800/80">
+                  <div className="text-[10px] font-mono text-zinc-400 uppercase">0-60 Timer</div>
+                  <div className="text-2xl sm:text-3xl font-black font-mono text-zinc-200 tracking-tight mt-1">
+                    {launchTimer}s
+                  </div>
+                  <div className="text-[9px] font-mono text-zinc-400">BENCHMARK</div>
+                </div>
+
+                <div className="bg-zinc-900/70 p-3 rounded border border-zinc-800/80">
+                  <div className="text-[10px] font-mono text-zinc-400 uppercase">Peak Gs</div>
+                  <div className="text-2xl sm:text-3xl font-black font-mono text-zinc-300 tracking-tight mt-1">
+                    {gForce}
+                  </div>
+                  <div className="text-[9px] font-mono text-zinc-400">FORCE</div>
+                </div>
+              </div>
+
+              {/* Launch Action Button */}
+              <button
+                onClick={triggerLaunch}
+                disabled={isLaunching}
+                className={`w-full py-3 px-4 font-mono text-xs uppercase tracking-widest font-black rounded-sm transition-all flex items-center justify-center gap-2 ${
+                  isLaunching
+                    ? 'bg-zinc-800 text-zinc-400 border border-zinc-700 cursor-not-allowed'
+                    : launchComplete
+                    ? 'bg-zinc-700 hover:bg-zinc-600 text-white border border-zinc-500 shadow-md'
+                    : 'bg-zinc-200 hover:bg-white text-zinc-950 shadow-md hover:shadow-zinc-300/30'
+                }`}
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span>
+                  {isLaunching
+                    ? `ACCELERATING: ${speed} MPH...`
+                    : launchComplete
+                    ? 'RE-LAUNCH 0-60 SIMULATOR'
+                    : 'TEST 0-60 LAUNCH'}
+                </span>
+              </button>
+
+              {launchComplete && (
+                <div className="text-center text-[11px] font-mono text-zinc-300 bg-zinc-900/80 py-1.5 px-2 rounded border border-zinc-700">
+                  ⚡ 0 to 60 MPH locked in 2.60s • Tri-Motor AWD Verified
+                </div>
+              )}
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-      {/* Bottom Telemetry HUD Bar */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 border-t border-neutral-800/80 pt-6">
-          
-          <div 
-            onClick={() => cyberAudio.playClick(1000)}
-            className="bg-neutral-950/80 border border-neutral-800/60 p-4 clip-chamfer group hover:border-red-600/60 transition-colors cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-neutral-500 mb-1">
-              <span className="text-[10px] font-mono tracking-widest uppercase">ACCELERATION</span>
-              <Gauge className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
-            </div>
+      {/* High-Speed Website Specs Ribbon */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-zinc-800 pt-6">
+          <div className="space-y-0.5">
             <div className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">
-              2.6 <span className="text-xs font-normal text-red-500">SEC</span>
+              2.6s
             </div>
-            <p className="text-[11px] text-neutral-400 font-mono mt-0.5">0-60 MPH (Cyberbeast)</p>
+            <div className="text-xs font-mono text-zinc-400 uppercase">
+              0-60 MPH (Cyberbeast)
+            </div>
           </div>
 
-          <div 
-            onClick={() => cyberAudio.playClick(1100)}
-            className="bg-neutral-950/80 border border-neutral-800/60 p-4 clip-chamfer group hover:border-red-600/60 transition-colors cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-neutral-500 mb-1">
-              <span className="text-[10px] font-mono tracking-widest uppercase">TOWING CAPACITY</span>
-              <Shield className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
-            </div>
+          <div className="space-y-0.5">
             <div className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">
-              11,000 <span className="text-xs font-normal text-red-500">LBS</span>
+              340 mi
             </div>
-            <p className="text-[11px] text-neutral-400 font-mono mt-0.5">Class 4 towing rating</p>
+            <div className="text-xs font-mono text-zinc-400 uppercase">
+              EPA Estimated Range
+            </div>
           </div>
 
-          <div 
-            onClick={() => cyberAudio.playClick(1200)}
-            className="bg-neutral-950/80 border border-neutral-800/60 p-4 clip-chamfer group hover:border-red-600/60 transition-colors cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-neutral-500 mb-1">
-              <span className="text-[10px] font-mono tracking-widest uppercase">EST. MAX RANGE</span>
-              <Zap className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
-            </div>
+          <div className="space-y-0.5">
             <div className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">
-              340+ <span className="text-xs font-normal text-red-500">MI</span>
+              11,000 lbs
             </div>
-            <p className="text-[11px] text-neutral-400 font-mono mt-0.5">470+ mi w/ Range Extender</p>
+            <div className="text-xs font-mono text-zinc-400 uppercase">
+              Towing Capacity
+            </div>
           </div>
 
-          <div 
-            onClick={() => cyberAudio.playClick(1300)}
-            className="bg-neutral-950/80 border border-neutral-800/60 p-4 clip-chamfer group hover:border-red-600/60 transition-colors cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-neutral-500 mb-1">
-              <span className="text-[10px] font-mono tracking-widest uppercase">HORSEPOWER</span>
-              <Flame className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
-            </div>
+          <div className="space-y-0.5">
             <div className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">
-              845 <span className="text-xs font-normal text-red-500">HP</span>
+              30X Alloy
             </div>
-            <p className="text-[11px] text-neutral-400 font-mono mt-0.5">Tri-Motor torque vectoring</p>
+            <div className="text-xs font-mono text-zinc-400 uppercase">
+              Cold-Rolled Steel Exoskeleton
+            </div>
           </div>
-
         </div>
-
-        {/* Scroll indicator */}
-        <div className="flex justify-center mt-6">
-          <button 
-            onClick={() => {
-              cyberAudio.playClick(800);
-              onExplore();
-            }}
-            className="flex items-center gap-1.5 text-neutral-500 hover:text-red-500 text-[10px] font-mono uppercase tracking-widest transition-colors"
-          >
-            <span>SCROLL TO DISCOVER</span>
-            <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
-          </button>
-        </div>
-
       </div>
 
     </section>

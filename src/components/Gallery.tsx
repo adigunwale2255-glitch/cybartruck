@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Maximize2, X, ChevronLeft, ChevronRight, Sliders } from 'lucide-react';
 import { GalleryItem } from '../types';
+import { cyberAudio } from '../lib/cyberAudio';
 
 interface GalleryProps {
   onCustomizePrompt?: () => void;
@@ -16,7 +17,7 @@ export const Gallery: React.FC<GalleryProps> = ({ onCustomizePrompt }) => {
       title: 'Cyberbeast Exoskeleton in Moab',
       category: 'offroad',
       url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80',
-      caption: 'Rock crawling through slickrock trails with 16" ground clearance.',
+      caption: 'Rock crawling through slickrock trails with 17.4" ground clearance in extract mode.',
       specsHighlight: 'Extract Mode • 35" All-Terrain Tires'
     },
     {
@@ -24,12 +25,12 @@ export const Gallery: React.FC<GalleryProps> = ({ onCustomizePrompt }) => {
       title: 'Raw 30X Cold-Rolled Steel Chamfers',
       category: 'exoskeleton',
       url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
-      caption: 'Clean unpainted stainless steel catching high-contrast angular highlights.',
+      caption: 'Clean unpainted stainless steel catching high-contrast angular titanium highlights.',
       specsHighlight: 'Structural Monocoque Skin'
     },
     {
       id: 'img-3',
-      title: 'Cyberpunk Red Neon Night Highway',
+      title: 'Monochrome Xenon Laser Night Highway',
       category: 'night',
       url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
       caption: 'Full-width 500-lumen headlamp beam cutting through midnight rain.',
@@ -40,7 +41,7 @@ export const Gallery: React.FC<GalleryProps> = ({ onCustomizePrompt }) => {
       title: 'Minimalist Cockpit & 18.5" Touchscreen',
       category: 'interior',
       url: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1200&q=80',
-      caption: 'Acoustic glass cabin with yoke steering and ambient cyberline trim.',
+      caption: 'Acoustic glass cabin with yoke steering and ambient slate monochrome trim.',
       specsHighlight: '15-Speaker Studio Audio'
     },
     {
@@ -49,7 +50,7 @@ export const Gallery: React.FC<GalleryProps> = ({ onCustomizePrompt }) => {
       category: 'offroad',
       url: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80',
       caption: 'Overland camping powered directly by 240V vault bed outlets.',
-      specsHighlight: 'Powershare 11.5kW Off-Grid'
+      specsHighlight: 'Powershare 9.6kW Off-Grid'
     },
     {
       id: 'img-6',
@@ -66,89 +67,97 @@ export const Gallery: React.FC<GalleryProps> = ({ onCustomizePrompt }) => {
   );
 
   const handleNext = () => {
+    cyberAudio.playClick(1000);
     if (lightboxIndex !== null) {
       setLightboxIndex((lightboxIndex + 1) % filteredItems.length);
     }
   };
 
   const handlePrev = () => {
+    cyberAudio.playClick(1000);
     if (lightboxIndex !== null) {
       setLightboxIndex((lightboxIndex - 1 + filteredItems.length) % filteredItems.length);
     }
   };
 
   return (
-    <div className="pt-24 pb-20 bg-black min-h-screen text-white">
+    <div className="pt-28 pb-20 bg-zinc-950 min-h-screen text-zinc-100 select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-neutral-800 pb-6 mb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-800 pb-6 mb-8">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-mono text-red-500 uppercase tracking-widest mb-1.5">
-              <Image className="w-3.5 h-3.5" />
-              CYBERFORGE VISUAL ARCHIVE
+            <div className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1.5 font-bold">
+              <Image className="w-3.5 h-3.5 text-zinc-300" />
+              CYBERFORGE OFFICIAL VISUAL ARCHIVE
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-white font-sans">
-              HIGH-RES <span className="text-metallic">GALLERY</span>
+              FLEET <span className="text-metallic">GALLERY</span>
             </h1>
           </div>
 
           {/* Category Tabs */}
-          <div className="flex items-center gap-1 bg-neutral-950 border border-neutral-800 p-1 rounded flex-wrap">
+          <div className="flex items-center gap-1 bg-zinc-900 border border-zinc-800 p-1 rounded flex-wrap">
             {[
               { id: 'all', label: 'All Photos' },
               { id: 'exoskeleton', label: 'Exoskeleton' },
-              { id: 'offroad', label: 'Off-Road' },
-              { id: 'night', label: 'Night Cyber' },
-              { id: 'interior', label: 'Interior' },
-            ].map(tab => (
+              { id: 'offroad', label: 'Overland & Off-Road' },
+              { id: 'night', label: 'Xenon Night' },
+              { id: 'interior', label: 'Cockpit' },
+            ].map((cat) => (
               <button
-                key={tab.id}
-                onClick={() => setActiveCategory(tab.id)}
-                className={`px-3 py-1.5 text-xs font-mono rounded transition-colors ${
-                  activeCategory === tab.id
-                    ? 'bg-red-600 text-white font-bold'
-                    : 'text-neutral-400 hover:text-white'
+                key={cat.id}
+                onClick={() => {
+                  cyberAudio.playClick(900);
+                  setActiveCategory(cat.id);
+                }}
+                className={`px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded transition-all ${
+                  activeCategory === cat.id
+                    ? 'bg-zinc-200 text-zinc-950 shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
                 }`}
               >
-                {tab.label}
+                {cat.label}
               </button>
             ))}
           </div>
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item, idx) => (
             <div
               key={item.id}
-              onClick={() => setLightboxIndex(idx)}
-              className="group relative aspect-[4/3] rounded-lg overflow-hidden border border-neutral-800 hover:border-red-600 cursor-pointer bg-neutral-950 transition-all duration-300 clip-chamfer shadow-xl"
+              onClick={() => {
+                cyberAudio.playClick(1100);
+                setLightboxIndex(idx);
+              }}
+              className="group relative bg-zinc-900/60 border border-zinc-800 hover:border-zinc-500 rounded-sm overflow-hidden cursor-pointer transition-all duration-300 shadow-lg hover:shadow-2xl flex flex-col justify-between"
             >
-              <img
-                src={item.url}
-                alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              <div className="relative aspect-[16/10] overflow-hidden bg-black">
+                <img
+                  src={item.url}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
 
-              {/* Bottom details */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1">
-                <span className="text-[10px] font-mono text-red-500 uppercase tracking-widest block">
-                  {item.specsHighlight}
-                </span>
-                <h3 className="text-sm font-bold font-sans text-white group-hover:text-red-400 transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-[11px] font-sans text-neutral-400 line-clamp-1">
-                  {item.caption}
-                </p>
+                <div className="absolute top-3 right-3 p-1.5 bg-zinc-900/80 border border-zinc-700 rounded-sm text-zinc-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Maximize2 className="w-3.5 h-3.5" />
+                </div>
               </div>
 
-              {/* Hover expand icon */}
-              <div className="absolute top-3 right-3 w-8 h-8 rounded bg-black/70 border border-neutral-700 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                <Maximize2 className="w-4 h-4 text-red-500" />
+              <div className="p-4 space-y-1.5 bg-zinc-900/80 border-t border-zinc-800/80">
+                <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 uppercase">
+                  <span>{item.category}</span>
+                  <span className="text-zinc-300 font-bold">{item.specsHighlight}</span>
+                </div>
+                <h3 className="text-sm font-bold font-mono text-white truncate uppercase">
+                  {item.title}
+                </h3>
+                <p className="text-xs text-zinc-400 line-clamp-1 font-sans">
+                  {item.caption}
+                </p>
               </div>
             </div>
           ))}
@@ -156,50 +165,73 @@ export const Gallery: React.FC<GalleryProps> = ({ onCustomizePrompt }) => {
 
       </div>
 
-      {/* Fullscreen Lightbox Modal */}
-      {lightboxIndex !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl p-4">
-          <button
-            onClick={() => setLightboxIndex(null)}
-            className="absolute top-6 right-6 p-2 text-neutral-400 hover:text-white border border-neutral-800 rounded bg-neutral-950 z-10"
-          >
-            <X className="w-6 h-6" />
-          </button>
+      {/* Lightbox Modal */}
+      {lightboxIndex !== null && filteredItems[lightboxIndex] && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md select-none">
+          <div className="relative max-w-5xl w-full bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden shadow-2xl flex flex-col">
+            
+            {/* Lightbox Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-900/50">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-mono font-bold text-white uppercase">
+                  {filteredItems[lightboxIndex].title}
+                </span>
+                <span className="text-[10px] font-mono text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded">
+                  {filteredItems[lightboxIndex].specsHighlight}
+                </span>
+              </div>
 
-          <button
-            onClick={handlePrev}
-            className="absolute left-4 sm:left-8 p-3 text-neutral-400 hover:text-white border border-neutral-800 rounded-full bg-neutral-950/80 hover:bg-neutral-900 z-10"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
+              <button
+                onClick={() => setLightboxIndex(null)}
+                className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-          <button
-            onClick={handleNext}
-            className="absolute right-4 sm:right-8 p-3 text-neutral-400 hover:text-white border border-neutral-800 rounded-full bg-neutral-950/80 hover:bg-neutral-900 z-10"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          <div className="max-w-5xl w-full flex flex-col items-center">
-            <div className="relative max-h-[75vh] rounded-lg overflow-hidden border border-neutral-800 bg-black">
+            {/* Lightbox Image Container */}
+            <div className="relative aspect-[16/9] w-full bg-black flex items-center justify-center overflow-hidden">
               <img
                 src={filteredItems[lightboxIndex].url}
                 alt={filteredItems[lightboxIndex].title}
-                className="max-h-[70vh] w-auto object-contain"
+                className="max-h-full max-w-full object-contain"
               />
+
+              <button
+                onClick={handlePrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-700 text-white transition-colors"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+
+              <button
+                onClick={handleNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-700 text-white transition-colors"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
             </div>
 
-            <div className="mt-4 text-center space-y-1">
-              <span className="text-xs font-mono text-red-500 uppercase tracking-widest">
-                {filteredItems[lightboxIndex].specsHighlight}
-              </span>
-              <h2 className="text-xl font-bold font-sans text-white">
-                {filteredItems[lightboxIndex].title}
-              </h2>
-              <p className="text-xs text-neutral-400 max-w-lg font-sans">
+            {/* Lightbox Footer */}
+            <div className="px-6 py-4 border-t border-zinc-800 bg-zinc-900/50 flex items-center justify-between flex-wrap gap-3">
+              <p className="text-xs font-mono text-zinc-400">
                 {filteredItems[lightboxIndex].caption}
               </p>
+
+              {onCustomizePrompt && (
+                <button
+                  onClick={() => {
+                    setLightboxIndex(null);
+                    onCustomizePrompt();
+                  }}
+                  className="px-4 py-2 bg-zinc-200 hover:bg-white text-zinc-950 text-xs font-mono font-bold uppercase rounded-sm flex items-center gap-1.5 shadow-sm"
+                >
+                  <Sliders className="w-3.5 h-3.5" />
+                  <span>Configure in 3D Studio</span>
+                </button>
+              )}
             </div>
+
           </div>
         </div>
       )}

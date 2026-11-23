@@ -375,7 +375,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-4">
         <div className="flex items-center justify-between py-2 border-b border-neutral-800 text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-zinc-200 text-zinc-950 animate-pulse" />
             <span className="text-neutral-400 uppercase tracking-wider">
               CYBERFORGE ENCRYPTED REAL-TIME FREQUENCY
             </span>
@@ -400,7 +400,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
               title="Toggle notifications"
             >
               {notificationsEnabled ? (
-                <Bell className="w-3.5 h-3.5 text-red-500" />
+                <Bell className="w-3.5 h-3.5 text-zinc-300" />
               ) : (
                 <BellOff className="w-3.5 h-3.5 text-neutral-600" />
               )}
@@ -430,7 +430,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                   <img
                     src={currentUser.avatarUrl}
                     alt={currentUser.displayName}
-                    className="w-10 h-10 rounded-full object-cover border border-red-600/60 shadow-red-glow-sm"
+                    className="w-10 h-10 rounded-full object-cover border border-zinc-500 shadow-sm"
                   />
                   <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-black" />
                 </div>
@@ -445,7 +445,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
               </div>
 
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-mono text-red-500 bg-red-950/40 border border-red-900/60 px-2 py-0.5 rounded uppercase">
+                <span className="text-[10px] font-mono text-zinc-300 bg-zinc-800 border border-zinc-700 px-2 py-0.5 rounded uppercase">
                   ONLINE
                 </span>
               </div>
@@ -460,7 +460,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                   placeholder="Search members or rooms..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded pl-9 pr-3 py-1.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-red-600 transition-colors"
+                  className="w-full bg-neutral-900 border border-neutral-800 rounded pl-9 pr-3 py-1.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-zinc-400 transition-colors"
                 />
               </div>
             </div>
@@ -477,22 +477,22 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                 }}
                 className={`w-full p-3.5 flex items-center gap-3 text-left transition-all ${
                   activeConversationId === 'public'
-                    ? 'bg-neutral-900 border-l-4 border-red-600'
+                    ? 'bg-neutral-900 border-l-4 border-zinc-300'
                     : 'hover:bg-neutral-900/40'
                 }`}
               >
-                <div className="relative w-11 h-11 rounded-sm bg-gradient-to-br from-red-600 to-black p-0.5 flex-shrink-0">
+                <div className="relative w-11 h-11 rounded-sm bg-gradient-to-br from-zinc-400 to-zinc-900 p-0.5 flex-shrink-0">
                   <div className="w-full h-full bg-neutral-950 flex items-center justify-center">
-                    <Globe className="w-5 h-5 text-red-500" />
+                    <Globe className="w-5 h-5 text-zinc-300" />
                   </div>
-                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-600 rounded-full animate-ping" />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-zinc-200 text-zinc-950 rounded-full animate-ping" />
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-baseline mb-0.5">
                     <span className="text-xs font-mono font-bold text-white truncate flex items-center gap-1.5">
                       CyberForge Global HQ
-                      <span className="text-[9px] bg-red-950 text-red-400 px-1 py-0.2 rounded border border-red-800">
+                      <span className="text-[9px] bg-zinc-800 text-zinc-200 px-1 py-0.2 rounded border border-zinc-700">
                         PUBLIC
                       </span>
                     </span>
@@ -525,7 +525,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                     }}
                     className={`w-full p-3.5 flex items-center gap-3 text-left transition-all ${
                       isActive
-                        ? 'bg-neutral-900 border-l-4 border-red-600'
+                        ? 'bg-neutral-900 border-l-4 border-zinc-300'
                         : 'hover:bg-neutral-900/40'
                     }`}
                   >
@@ -557,7 +557,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                     </div>
 
                     {unread > 0 && (
-                      <span className="w-5 h-5 bg-red-600 text-white rounded-full text-[10px] font-mono font-bold flex items-center justify-center flex-shrink-0 shadow-red-glow-sm">
+                      <span className="w-5 h-5 bg-zinc-200 text-zinc-950 text-white rounded-full text-[10px] font-mono font-bold flex items-center justify-center flex-shrink-0 shadow-sm">
                         {unread}
                       </span>
                     )}
@@ -577,7 +577,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                   const target = profiles.find(p => p.id === e.target.value);
                   if (target) onSwitchUser(target);
                 }}
-                className="bg-black border border-neutral-800 text-neutral-300 text-xs rounded px-2 py-1 font-mono focus:outline-none focus:border-red-600"
+                className="bg-black border border-neutral-800 text-neutral-300 text-xs rounded px-2 py-1 font-mono focus:outline-none focus:border-zinc-400"
               >
                 {profiles.map(p => (
                   <option key={p.id} value={p.id}>
@@ -607,8 +607,8 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                 </button>
 
                 {activeConversationId === 'public' ? (
-                  <div className="relative w-9 h-9 rounded bg-red-950 border border-red-800 flex items-center justify-center">
-                    <Globe className="w-5 h-5 text-red-500" />
+                  <div className="relative w-9 h-9 rounded bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+                    <Globe className="w-5 h-5 text-zinc-300" />
                   </div>
                 ) : (
                   <div className="relative w-9 h-9">
@@ -645,7 +645,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                 {activeContact && (
                   <button
                     onClick={() => handleBlockUser(activeContact.id)}
-                    className="p-1.5 text-neutral-400 hover:text-red-500 text-xs font-mono flex items-center gap-1 border border-neutral-800 rounded bg-neutral-900/50"
+                    className="p-1.5 text-neutral-400 hover:text-zinc-300 text-xs font-mono flex items-center gap-1 border border-neutral-800 rounded bg-neutral-900/50"
                     title="Block User"
                   >
                     <Slash className="w-3.5 h-3.5" />
@@ -668,7 +668,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
               {currentMessages.length === 0 ? (
                 <div className="text-center py-16 space-y-3">
                   <div className="w-12 h-12 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center mx-auto text-neutral-500">
-                    <Send className="w-5 h-5 text-red-500" />
+                    <Send className="w-5 h-5 text-zinc-300" />
                   </div>
                   <p className="text-xs font-mono text-neutral-400">
                     No transmissions on this frequency yet.
@@ -705,24 +705,24 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                       <div
                         className={`relative max-w-[85%] sm:max-w-[70%] p-3 rounded-lg border text-xs font-sans shadow-lg transition-all ${
                           isMine
-                            ? 'bg-neutral-900 border-red-900/60 text-white rounded-tr-none'
+                            ? 'bg-neutral-900 border-zinc-700 text-white rounded-tr-none'
                             : 'bg-neutral-900/90 border-neutral-800 text-neutral-200 rounded-tl-none'
                         }`}
                       >
                         {/* Reply Preview */}
                         {msg.replyTo && (
-                          <div className="mb-2 p-2 bg-black/50 border-l-2 border-red-600 rounded text-[10px] font-mono text-neutral-400">
-                            <span className="font-bold text-red-400 block">{msg.replyTo.senderName}</span>
+                          <div className="mb-2 p-2 bg-black/50 border-l-2 border-zinc-400 rounded text-[10px] font-mono text-neutral-400">
+                            <span className="font-bold text-zinc-200 block">{msg.replyTo.senderName}</span>
                             <span className="truncate block">{msg.replyTo.content}</span>
                           </div>
                         )}
 
                         {/* Shared Custom Cybertruck Build Card */}
                         {msg.buildData && (
-                          <div className="mb-2.5 p-3 bg-black/90 border border-red-900/80 rounded clip-chamfer space-y-2">
-                            <div className="flex items-center justify-between text-[10px] font-mono text-red-500 border-b border-neutral-800 pb-1">
+                          <div className="mb-2.5 p-3 bg-black/90 border border-zinc-700 rounded clip-chamfer space-y-2">
+                            <div className="flex items-center justify-between text-[10px] font-mono text-zinc-300 border-b border-neutral-800 pb-1">
                               <span className="font-bold uppercase tracking-wider flex items-center gap-1">
-                                <Flame className="w-3 h-3 text-red-500" />
+                                <Flame className="w-3 h-3 text-zinc-300" />
                                 Custom Cybertruck Spec
                               </span>
                               <span className="text-white font-bold">
@@ -749,7 +749,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                                   cyberAudio.playClick(1300);
                                   onInspectBuild(msg.buildData!);
                                 }}
-                                className="w-full mt-2 py-1.5 bg-red-600/90 hover:bg-red-600 text-white font-mono text-[10px] font-bold uppercase tracking-wider rounded flex items-center justify-center gap-1.5 transition-colors shadow-red-glow-sm"
+                                className="w-full mt-2 py-1.5 bg-zinc-200 hover:bg-white text-zinc-950 font-mono text-[10px] font-bold uppercase tracking-wider rounded flex items-center justify-center gap-1.5 transition-colors shadow-sm"
                               >
                                 <Sliders className="w-3 h-3" />
                                 <span>Inspect in Customizer</span>
@@ -774,7 +774,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                           <div className="flex items-center gap-3 py-1">
                             <button
                               onClick={() => toggleVoiceNote(msg.id)}
-                              className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center shadow-red-glow-sm"
+                              className="w-8 h-8 rounded-full bg-zinc-200 text-zinc-950 font-bold flex items-center justify-center shadow-sm"
                             >
                               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
                             </button>
@@ -785,7 +785,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                                 <div 
                                   key={bIdx}
                                   className={`w-1 rounded-full transition-all ${
-                                    isPlaying ? 'bg-red-500 animate-pulse' : 'bg-neutral-600'
+                                    isPlaying ? 'bg-zinc-300 animate-pulse' : 'bg-neutral-600'
                                   }`}
                                   style={{ height: `${isPlaying ? (h * 1.2) : h}px` }}
                                 />
@@ -806,7 +806,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                               <span 
                                 key={eIdx}
                                 onClick={() => addReaction(msg.id, emoji)}
-                                className="bg-black/60 border border-neutral-700 text-xs px-1.5 py-0.5 rounded cursor-pointer hover:border-red-500"
+                                className="bg-black/60 border border-neutral-700 text-xs px-1.5 py-0.5 rounded cursor-pointer hover:border-zinc-400"
                               >
                                 {emoji}
                               </span>
@@ -820,7 +820,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                             {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                           {isMine && (
-                            <CheckCheck className="w-3.5 h-3.5 text-red-500" />
+                            <CheckCheck className="w-3.5 h-3.5 text-zinc-300" />
                           )}
                         </div>
 
@@ -861,7 +861,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                           {isMine ? (
                             <button
                               onClick={() => handleDeleteMessage(msg.id)}
-                              className="text-neutral-400 hover:text-red-500"
+                              className="text-neutral-400 hover:text-zinc-300"
                               title="Delete message"
                             >
                               <Trash2 className="w-3 h-3" />
@@ -869,7 +869,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                           ) : (
                             <button
                               onClick={() => setReportModalMessage(msg)}
-                              className="text-neutral-400 hover:text-red-500"
+                              className="text-neutral-400 hover:text-zinc-300"
                               title="Report message"
                             >
                               <ShieldAlert className="w-3 h-3" />
@@ -886,7 +886,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
               {/* Typing indicator */}
               {typingUsers.length > 0 && (
                 <div className="flex items-center gap-2 text-[10px] font-mono text-neutral-400 italic">
-                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping" />
+                  <span className="w-1.5 h-1.5 bg-zinc-200 text-zinc-950 rounded-full animate-ping" />
                   <span>{typingUsers.join(', ')} is transmitting...</span>
                 </div>
               )}
@@ -898,7 +898,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
             {replyingTo && (
               <div className="px-4 py-2 bg-neutral-900 border-t border-neutral-800 flex items-center justify-between text-xs font-mono text-neutral-300">
                 <div className="flex items-center gap-2 truncate">
-                  <CornerUpLeft className="w-4 h-4 text-red-500 flex-shrink-0" />
+                  <CornerUpLeft className="w-4 h-4 text-zinc-300 flex-shrink-0" />
                   <span className="truncate">
                     Replying to <span className="font-bold text-white">{replyingTo.senderName}</span>: {replyingTo.content}
                   </span>
@@ -919,7 +919,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                   <img
                     src={attachedImage}
                     alt="Pending attachment"
-                    className="w-12 h-12 object-cover rounded border border-red-600"
+                    className="w-12 h-12 object-cover rounded border border-zinc-400"
                   />
                   <span className="text-xs font-mono text-neutral-300">Image Attached</span>
                 </div>
@@ -962,7 +962,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                   setShowEmojiPicker(!showEmojiPicker);
                 }}
                 className={`p-2 rounded text-neutral-400 hover:text-white transition-colors ${
-                  showEmojiPicker ? 'text-red-500 bg-neutral-800' : ''
+                  showEmojiPicker ? 'text-zinc-300 bg-neutral-800' : ''
                 }`}
                 title="Insert emoji"
               >
@@ -996,7 +996,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
               <button
                 type="button"
                 onClick={sendVoiceNote}
-                className="p-2 rounded text-neutral-400 hover:text-red-400 transition-colors"
+                className="p-2 rounded text-neutral-400 hover:text-zinc-200 transition-colors"
                 title="Send Voice Transmission (0:18)"
               >
                 <Mic className="w-5 h-5" />
@@ -1020,14 +1020,14 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                     }, 2000);
                   }
                 }}
-                className="flex-1 bg-black border border-neutral-800 rounded px-4 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-red-600 transition-colors"
+                className="flex-1 bg-black border border-neutral-800 rounded px-4 py-2.5 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-zinc-400 transition-colors"
               />
 
               {/* Send Button */}
               <button
                 type="submit"
                 disabled={!inputText.trim() && !attachedImage}
-                className="p-2.5 bg-red-600 hover:bg-red-500 disabled:opacity-40 disabled:hover:bg-red-600 text-white rounded clip-chamfer transition-all shadow-red-glow-sm"
+                className="p-2.5 bg-zinc-200 hover:bg-white disabled:opacity-40 text-zinc-950 font-bold rounded clip-chamfer transition-all shadow-sm"
                 title="Send Transmission"
               >
                 <Send className="w-4 h-4" />
@@ -1044,7 +1044,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
           <div className="relative w-full max-w-md bg-neutral-950 border border-neutral-800 rounded-lg p-6 space-y-4">
             <div className="flex justify-between items-center border-b border-neutral-800 pb-3">
-              <h3 className="text-sm font-mono font-bold text-red-500 uppercase flex items-center gap-2">
+              <h3 className="text-sm font-mono font-bold text-zinc-300 uppercase flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4" />
                 Report Transmission
               </h3>
@@ -1070,7 +1070,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                   <select
                     value={reportReason}
                     onChange={(e) => setReportReason(e.target.value)}
-                    className="w-full bg-black border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                    className="w-full bg-black border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-zinc-400"
                   >
                     <option value="">Select violation...</option>
                     <option value="spam">Commercial Spam / Bot</option>
@@ -1084,7 +1084,7 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({
                   <button
                     onClick={handleReportMessage}
                     disabled={!reportReason}
-                    className="flex-1 py-2.5 bg-red-600 hover:bg-red-500 disabled:opacity-40 text-white font-bold uppercase tracking-wider rounded"
+                    className="flex-1 py-2.5 bg-zinc-200 hover:bg-white text-zinc-950 disabled:opacity-40 text-white font-bold uppercase tracking-wider rounded"
                   >
                     Submit Report
                   </button>

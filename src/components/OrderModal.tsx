@@ -11,8 +11,6 @@ import {
   Printer, 
   ArrowRight, 
   ArrowLeft,
-  Flame,
-  Zap,
   Lock
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -102,10 +100,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
       cyberAudio.playLaser();
       confetti({
-        particleCount: 100,
-        spread: 80,
+        particleCount: 90,
+        spread: 75,
         origin: { y: 0.6 },
-        colors: ['#ef4444', '#ffffff', '#cbd5e1', '#b91c1c']
+        colors: ['#ffffff', '#d1d5db', '#9ca3af', '#6b7280']
       });
 
       setStep(4);
@@ -118,445 +116,335 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md select-none">
-      <div className="relative w-full max-w-2xl bg-neutral-950 border border-neutral-800 rounded-lg p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto">
+      
+      <div className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-800 rounded-lg shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-neutral-800 pb-4 mb-6">
-          <div>
-            <span className="text-[10px] font-mono text-red-500 uppercase tracking-widest block">
-              OFFICIAL CYBERFORGE VEHICLE RESERVATION
-            </span>
-            <h2 className="text-xl sm:text-2xl font-black font-sans uppercase text-white">
-              {step === 4 ? 'RESERVATION CONFIRMED' : 'RESERVE YOUR CYBERTRUCK'}
-            </h2>
+        {/* Modal Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-900/50">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded bg-zinc-800 border border-zinc-700 text-zinc-300">
+              <Truck className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-black font-mono text-white tracking-wide uppercase">
+                {step === 4 ? 'RESERVATION CONFIRMED' : 'RESERVE YOUR CYBERTRUCK'}
+              </h3>
+              <p className="text-[11px] font-mono text-zinc-400">
+                {step === 4 ? `ALLOCATION VIN: ${createdOrder?.vin}` : 'OFFICIAL FLEET ORDER CHECKOUT • $250 DEPOSIT'}
+              </p>
+            </div>
           </div>
-          
+
           <button
             onClick={() => {
-              cyberAudio.playClick(600);
+              cyberAudio.playClick(800);
               onClose();
             }}
-            className="text-neutral-400 hover:text-white p-1"
+            className="p-1.5 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Progress Tracker (Steps 1-3) */}
+        {/* Step Indicator */}
         {step < 4 && (
-          <div className="flex items-center justify-between mb-6 border-b border-neutral-900 pb-4 text-xs font-mono">
-            <div className={`flex items-center gap-2 ${step >= 1 ? 'text-red-500 font-bold' : 'text-neutral-600'}`}>
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${
-                step >= 1 ? 'bg-red-600 text-white' : 'bg-neutral-800 text-neutral-400'
-              }`}>1</span>
-              <span>Review Spec</span>
+          <div className="grid grid-cols-3 border-b border-zinc-800 text-center text-xs font-mono">
+            <div className={`py-3 ${step === 1 ? 'bg-zinc-800 text-white font-bold border-b-2 border-zinc-300' : 'text-zinc-500'}`}>
+              1. Build Summary
             </div>
-            <div className="w-8 h-[1px] bg-neutral-800" />
-            <div className={`flex items-center gap-2 ${step >= 2 ? 'text-red-500 font-bold' : 'text-neutral-600'}`}>
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${
-                step >= 2 ? 'bg-red-600 text-white' : 'bg-neutral-800 text-neutral-400'
-              }`}>2</span>
-              <span>Destination</span>
+            <div className={`py-3 ${step === 2 ? 'bg-zinc-800 text-white font-bold border-b-2 border-zinc-300' : 'text-zinc-500'}`}>
+              2. Delivery Details
             </div>
-            <div className="w-8 h-[1px] bg-neutral-800" />
-            <div className={`flex items-center gap-2 ${step >= 3 ? 'text-red-500 font-bold' : 'text-neutral-600'}`}>
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${
-                step >= 3 ? 'bg-red-600 text-white' : 'bg-neutral-800 text-neutral-400'
-              }`}>3</span>
-              <span>Deposit</span>
+            <div className={`py-3 ${step === 3 ? 'bg-zinc-800 text-white font-bold border-b-2 border-zinc-300' : 'text-zinc-500'}`}>
+              3. Payment & Deposit
             </div>
           </div>
         )}
 
-        {/* ======================================================== */}
-        {/* STEP 1: SPECIFICATION & PRICE REVIEW                     */}
-        {/* ======================================================== */}
-        {step === 1 && (
-          <div className="space-y-5 flex-1">
-            <div className="p-4 bg-neutral-900/70 border border-neutral-800 rounded clip-chamfer space-y-3 font-mono text-xs">
-              <div className="flex justify-between items-center border-b border-neutral-800 pb-2">
-                <span className="text-white font-bold text-sm">{buildSpec.powertrainName}</span>
-                <span className="text-red-500 font-bold text-sm">${buildSpec.powertrainPrice.toLocaleString()}</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 text-neutral-300">
-                <div>
-                  <span className="text-[10px] text-neutral-500 uppercase block">Exterior Wrap</span>
-                  <span className="font-bold text-white flex items-center gap-1.5 mt-0.5">
-                    <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: buildSpec.finishHex }} />
-                    {buildSpec.finishName}
-                  </span>
+        {/* Modal Body */}
+        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+          
+          {/* STEP 1: SPECIFICATION REVIEW */}
+          {step === 1 && (
+            <div className="space-y-5">
+              <div className="bg-zinc-900/60 border border-zinc-800 p-4 rounded-sm space-y-3">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <span className="text-xs font-mono font-bold text-zinc-400 uppercase">Selected Model</span>
+                  <span className="text-xs font-mono font-black text-white">{buildSpec.powertrainName}</span>
                 </div>
-                <div>
-                  <span className="text-[10px] text-neutral-500 uppercase block">Wheel Set</span>
-                  <span className="font-bold text-white block mt-0.5">{buildSpec.wheelsName}</span>
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <span className="text-xs font-mono font-bold text-zinc-400 uppercase">Exterior Finish</span>
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full border border-zinc-600" style={{ backgroundColor: buildSpec.finishHex }} />
+                    <span className="text-xs font-mono text-white">{buildSpec.finishName}</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[10px] text-neutral-500 uppercase block">Interior Trim</span>
-                  <span className="text-white block mt-0.5">{buildSpec.interiorName}</span>
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <span className="text-xs font-mono font-bold text-zinc-400 uppercase">Wheels & Tires</span>
+                  <span className="text-xs font-mono text-white">{buildSpec.wheelsName}</span>
                 </div>
-                <div>
-                  <span className="text-[10px] text-neutral-500 uppercase block">Accessories ({buildSpec.accessories.length})</span>
-                  <span className="text-white block mt-0.5">
-                    {buildSpec.accessories.join(', ') || 'None selected'}
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <span className="text-xs font-mono font-bold text-zinc-400 uppercase">Equipment Package</span>
+                  <span className="text-xs font-mono text-zinc-300">
+                    {buildSpec.accessories.length > 0 ? `${buildSpec.accessories.length} Items Selected` : 'Standard'}
                   </span>
                 </div>
               </div>
 
-              {/* Itemized Pricing */}
-              <div className="border-t border-neutral-800 pt-3 space-y-1.5 text-neutral-400">
-                <div className="flex justify-between">
-                  <span>Base Vehicle MSRP:</span>
-                  <span>${buildSpec.powertrainPrice.toLocaleString()}</span>
+              {/* Pricing Breakdown */}
+              <div className="bg-zinc-950 border border-zinc-800/80 p-4 rounded-sm space-y-2 text-xs font-mono">
+                <div className="flex justify-between text-zinc-400">
+                  <span>Vehicle Configured MSRP:</span>
+                  <span>${buildSpec.totalPrice.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Custom Wrap & Wheels:</span>
-                  <span>+${(buildSpec.wheelsPrice + (buildSpec.finishCategory !== 'Factory Raw' ? 4200 : 0)).toLocaleString()}</span>
+                <div className="flex justify-between text-zinc-400">
+                  <span>Destination & Documentation Fee:</span>
+                  <span>${destinationFee.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Destination & Documentation:</span>
-                  <span>+${destinationFee.toLocaleString()}</span>
+                <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-zinc-800">
+                  <span>Total Est. Vehicle Price:</span>
+                  <span className="text-zinc-100 font-mono">${finalPrice.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-white font-bold pt-2 border-t border-neutral-800 text-sm">
-                  <span>Total Vehicle Price:</span>
-                  <span className="text-red-500 font-mono text-base">${finalPrice.toLocaleString()}</span>
+                <div className="flex justify-between text-zinc-400 pt-1">
+                  <span>Est. Financing (60 mo @ 5.49%):</span>
+                  <span>~${estimatedMonthly.toLocaleString()}/mo</span>
                 </div>
-                <div className="flex justify-between text-[11px] text-neutral-500">
-                  <span>Estimated 60-Month Lease:</span>
-                  <span>~${estimatedMonthly.toLocaleString()} / month</span>
+                <div className="flex justify-between text-xs font-bold text-white pt-2 border-t border-zinc-800">
+                  <span className="text-zinc-300">Due Today (Fully Refundable Deposit):</span>
+                  <span className="text-white text-sm font-black">$250.00</span>
                 </div>
               </div>
             </div>
+          )}
 
-            {/* Deposit Notice */}
-            <div className="p-3.5 bg-neutral-900 border border-red-900/60 rounded flex items-center justify-between text-xs font-mono">
-              <div className="flex items-center gap-2.5">
-                <ShieldCheck className="w-5 h-5 text-red-500 flex-shrink-0" />
+          {/* STEP 2: DELIVERY DETAILS */}
+          {step === 2 && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <span className="font-bold text-white block">Due Today: $250 Reservation Deposit</span>
-                  <span className="text-[10px] text-neutral-400">100% Fully Refundable prior to VIN allocation.</span>
+                  <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1">Full Legal Name</label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded p-2.5 text-xs font-mono text-white focus:border-zinc-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1">Email Address</label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded p-2.5 text-xs font-mono text-white focus:border-zinc-500 focus:outline-none"
+                  />
                 </div>
               </div>
-              <span className="text-base font-black text-white font-mono">$250.00</span>
-            </div>
 
-            <div className="pt-3">
-              <button
-                onClick={handleNextStep}
-                className="w-full py-4 bg-red-600 hover:bg-red-500 text-white font-mono text-xs font-bold uppercase tracking-widest clip-chamfer transition-all shadow-red-glow flex items-center justify-center gap-2"
-              >
-                <span>Proceed to Delivery Destination</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded p-2.5 text-xs font-mono text-white focus:border-zinc-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1">Street Address</label>
+                  <input
+                    type="text"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded p-2.5 text-xs font-mono text-white focus:border-zinc-500 focus:outline-none"
+                  />
+                </div>
+              </div>
 
-        {/* ======================================================== */}
-        {/* STEP 2: DELIVERY & BUYER INFO                            */}
-        {/* ======================================================== */}
-        {step === 2 && (
-          <div className="space-y-4 flex-1 font-mono text-xs">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="text-neutral-400 block mb-1">Full Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
-                />
-              </div>
-              <div>
-                <label className="text-neutral-400 block mb-1">Email Address *</label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="text-neutral-400 block mb-1">Phone Number *</label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
-                />
-              </div>
-              <div>
-                <label className="text-neutral-400 block mb-1">Preferred Delivery Hub</label>
+                <label className="text-[11px] font-mono text-zinc-400 uppercase block mb-1">
+                  Preferred Delivery Hub / Fulfillment Center
+                </label>
                 <select
                   value={formData.deliveryHub}
                   onChange={(e) => setFormData({ ...formData, deliveryHub: e.target.value })}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded p-2.5 text-xs font-mono text-white focus:border-zinc-500 focus:outline-none cursor-pointer"
                 >
-                  {deliveryHubs.map(hub => (
-                    <option key={hub} value={hub}>{hub}</option>
+                  {deliveryHubs.map((hub, idx) => (
+                    <option key={idx} value={hub}>{hub}</option>
                   ))}
                 </select>
               </div>
             </div>
+          )}
 
-            <div>
-              <label className="text-neutral-400 block mb-1">Street Address</label>
-              <input
-                type="text"
-                value={formData.address}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
-              />
-            </div>
-
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="text-neutral-400 block mb-1">City</label>
-                <input
-                  type="text"
-                  value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
-                />
-              </div>
-              <div>
-                <label className="text-neutral-400 block mb-1">State</label>
-                <input
-                  type="text"
-                  value={formData.state}
-                  onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
-                />
-              </div>
-              <div>
-                <label className="text-neutral-400 block mb-1">ZIP</label>
-                <input
-                  type="text"
-                  value={formData.zip}
-                  onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
-                />
-              </div>
-            </div>
-
-            <div className="pt-4 flex gap-3">
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="px-4 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 rounded flex items-center gap-1.5"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back</span>
-              </button>
-              <button
-                type="button"
-                onClick={handleNextStep}
-                className="flex-1 py-3 bg-red-600 hover:bg-red-500 text-white font-bold uppercase tracking-wider rounded clip-chamfer shadow-red-glow flex items-center justify-center gap-2"
-              >
-                <span>Continue to Payment Method</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ======================================================== */}
-        {/* STEP 3: PAYMENT METHOD & DEPOSIT CONFIRMATION            */}
-        {/* ======================================================== */}
-        {step === 3 && (
-          <div className="space-y-5 flex-1 font-mono text-xs">
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { id: 'credit_card', label: 'Credit Card', icon: CreditCard },
-                { id: 'apple_pay', label: 'Apple / Google Pay', icon: DollarSign },
-                { id: 'crypto', label: 'Crypto / BTC', icon: Zap },
-              ].map(method => (
+          {/* STEP 3: PAYMENT METHOD */}
+          {step === 3 && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-3">
                 <button
-                  key={method.id}
                   type="button"
-                  onClick={() => setFormData({ ...formData, paymentMethod: method.id as any })}
-                  className={`p-3 rounded border text-center transition-all flex flex-col items-center gap-1.5 ${
-                    formData.paymentMethod === method.id
-                      ? 'border-red-600 bg-red-950/20 text-white shadow-red-glow-sm'
-                      : 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:text-white'
+                  onClick={() => setFormData({ ...formData, paymentMethod: 'credit_card' })}
+                  className={`p-3 rounded border text-center transition-all ${
+                    formData.paymentMethod === 'credit_card'
+                      ? 'border-zinc-300 bg-zinc-800 text-white font-bold'
+                      : 'border-zinc-800 bg-zinc-900 text-zinc-400'
                   }`}
                 >
-                  <method.icon className="w-4 h-4 text-red-500" />
-                  <span className="text-[10px] font-bold uppercase">{method.label}</span>
+                  <CreditCard className="w-4 h-4 mx-auto mb-1" />
+                  <span className="text-[11px] font-mono block">Credit Card</span>
                 </button>
-              ))}
-            </div>
 
-            {formData.paymentMethod === 'credit_card' ? (
-              <div className="p-4 bg-neutral-900 border border-neutral-800 rounded space-y-3">
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, paymentMethod: 'apple_pay' })}
+                  className={`p-3 rounded border text-center transition-all ${
+                    formData.paymentMethod === 'apple_pay'
+                      ? 'border-zinc-300 bg-zinc-800 text-white font-bold'
+                      : 'border-zinc-800 bg-zinc-900 text-zinc-400'
+                  }`}
+                >
+                  <ShieldCheck className="w-4 h-4 mx-auto mb-1" />
+                  <span className="text-[11px] font-mono block">Apple Pay</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, paymentMethod: 'crypto' })}
+                  className={`p-3 rounded border text-center transition-all ${
+                    formData.paymentMethod === 'crypto'
+                      ? 'border-zinc-300 bg-zinc-800 text-white font-bold'
+                      : 'border-zinc-800 bg-zinc-900 text-zinc-400'
+                  }`}
+                >
+                  <Lock className="w-4 h-4 mx-auto mb-1" />
+                  <span className="text-[11px] font-mono block">Dogecoin / Crypto</span>
+                </button>
+              </div>
+
+              <div className="bg-zinc-900/60 border border-zinc-800 p-4 rounded-sm space-y-3">
                 <div>
-                  <label className="text-neutral-400 block mb-1">Card Number</label>
+                  <label className="text-[10px] font-mono text-zinc-400 uppercase block mb-1">Card Number</label>
                   <input
                     type="text"
                     value={formData.cardNumber}
-                    onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
-                    className="w-full bg-black border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                    readOnly
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-xs font-mono text-zinc-300"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-neutral-400 block mb-1">Expiration Date</label>
+                    <label className="text-[10px] font-mono text-zinc-400 uppercase block mb-1">Expiration</label>
                     <input
                       type="text"
                       value={formData.cardExpiry}
-                      onChange={(e) => setFormData({ ...formData, cardExpiry: e.target.value })}
-                      className="w-full bg-black border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                      readOnly
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-xs font-mono text-zinc-300"
                     />
                   </div>
                   <div>
-                    <label className="text-neutral-400 block mb-1">Security Code (CVV)</label>
+                    <label className="text-[10px] font-mono text-zinc-400 uppercase block mb-1">CVC Security</label>
                     <input
-                      type="password"
+                      type="text"
                       value={formData.cardCvc}
-                      onChange={(e) => setFormData({ ...formData, cardCvc: e.target.value })}
-                      className="w-full bg-black border border-neutral-800 rounded px-3 py-2 text-white focus:outline-none focus:border-red-600"
+                      readOnly
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-xs font-mono text-zinc-300"
                     />
                   </div>
                 </div>
               </div>
-            ) : (
-              <div className="p-6 bg-neutral-900 border border-neutral-800 rounded text-center space-y-2">
-                <Lock className="w-8 h-8 text-red-500 mx-auto" />
-                <h4 className="text-sm font-bold text-white">Instant Wallet Authorization</h4>
-                <p className="text-neutral-400 text-[11px]">
-                  Deposit of $250.00 will be authorized via {formData.paymentMethod === 'crypto' ? 'Bitcoin / Lightning Network' : 'Apple Pay biometric verification'}.
+
+              <div className="p-3 bg-zinc-900 border border-zinc-800 rounded text-xs font-mono text-zinc-400 flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-zinc-300 shrink-0" />
+                <span>256-bit SSL encrypted. Deposit of $250 is fully refundable prior to VIN production lock.</span>
+              </div>
+            </div>
+          )}
+
+          {/* STEP 4: ORDER SUCCESS */}
+          {step === 4 && createdOrder && (
+            <div className="space-y-6 text-center py-4">
+              <div className="w-16 h-16 rounded-full bg-zinc-800 border-2 border-zinc-400 flex items-center justify-center mx-auto text-white shadow-lg">
+                <Check className="w-8 h-8" />
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-2xl font-black font-mono text-white tracking-wider uppercase">
+                  CONGRATULATIONS, {formData.name.split(' ')[0].toUpperCase()}!
+                </h3>
+                <p className="text-xs font-mono text-zinc-400 max-w-md mx-auto">
+                  Your reservation is secured in the CyberForge Production Queue. An official build sheet has been generated.
                 </p>
               </div>
-            )}
 
-            <div className="p-3 bg-neutral-900/60 rounded border border-neutral-800 text-[11px] text-neutral-400">
-              By placing this reservation, your spot in the CyberForge manufacturing queue is immediately locked. You can cancel and receive a 100% refund at any time prior to chassis delivery.
+              {/* Digital VIN Card */}
+              <div className="bg-zinc-900/90 border border-zinc-700 p-5 rounded-sm max-w-md mx-auto text-left space-y-3 shadow-xl">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase">Assigned Production VIN</span>
+                  <span className="text-xs font-mono font-bold text-zinc-200">{createdOrder.vin}</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase">Order Number</span>
+                  <span className="text-xs font-mono text-white">{createdOrder.orderNumber}</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase">Fulfillment Hub</span>
+                  <span className="text-xs font-mono text-zinc-300">{createdOrder.deliveryHub}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase">Estimated Delivery</span>
+                  <span className="text-xs font-mono text-white font-bold">{createdOrder.estimatedDelivery}</span>
+                </div>
+              </div>
+
+              {/* Action Buttons for Completed Order */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                <button
+                  onClick={handlePrint}
+                  className="w-full sm:w-auto px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-mono text-xs uppercase tracking-wider rounded border border-zinc-600 flex items-center justify-center gap-2 transition-colors"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>Print Build Sheet</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    cyberAudio.playClick(1300);
+                    onShareToChat(buildSpec);
+                    onClose();
+                  }}
+                  className="w-full sm:w-auto px-5 py-2.5 bg-zinc-200 hover:bg-white text-zinc-950 font-mono font-bold text-xs uppercase tracking-wider rounded flex items-center justify-center gap-2 transition-all shadow-md"
+                >
+                  <Share2 className="w-4 h-4" />
+                  <span>Announce to Community</span>
+                </button>
+              </div>
             </div>
+          )}
 
-            <div className="pt-2 flex gap-3">
+        </div>
+
+        {/* Modal Footer / Navigation Controls */}
+        {step < 4 && (
+          <div className="flex items-center justify-between px-6 py-4 border-t border-zinc-800 bg-zinc-900/50">
+            {step > 1 ? (
               <button
-                type="button"
-                onClick={() => setStep(2)}
-                className="px-4 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 rounded flex items-center gap-1.5"
+                onClick={() => setStep((step - 1) as any)}
+                className="px-4 py-2 text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back</span>
               </button>
-              <button
-                type="button"
-                onClick={handleNextStep}
-                className="flex-1 py-4 bg-red-600 hover:bg-red-500 text-white font-bold uppercase tracking-widest rounded clip-chamfer shadow-red-glow flex items-center justify-center gap-2"
-              >
-                <Lock className="w-4 h-4" />
-                <span>Authorize & Place Order ($250 Deposit)</span>
-              </button>
-            </div>
-          </div>
-        )}
+            ) : <div />}
 
-        {/* ======================================================== */}
-        {/* STEP 4: ORDER CONFIRMED & VIN RECEIPT                    */}
-        {/* ======================================================== */}
-        {step === 4 && createdOrder && (
-          <div className="space-y-5 flex-1 font-mono text-xs">
-            <div className="text-center py-4 space-y-2">
-              <div className="w-14 h-14 bg-red-600/20 border border-red-600 rounded-full flex items-center justify-center mx-auto text-red-500 shadow-red-glow-sm">
-                <Check className="w-7 h-7" />
-              </div>
-              <h3 className="text-2xl font-black font-sans uppercase text-white">
-                ORDER OFFICIALLY CONFIRMED
-              </h3>
-              <p className="text-neutral-400 text-xs">
-                Welcome to the fleet, <span className="text-white font-bold">{createdOrder.customerName}</span>. Your vehicle is queued for Gigafactory production.
-              </p>
-            </div>
-
-            {/* Official Digital VIN Receipt Sheet */}
-            <div className="p-4 bg-neutral-900 border border-red-900/80 rounded clip-chamfer space-y-3">
-              <div className="flex justify-between items-center border-b border-neutral-800 pb-2">
-                <div>
-                  <span className="text-[9px] text-neutral-500 uppercase block">ORDER IDENTIFIER</span>
-                  <span className="font-bold text-white text-sm">{createdOrder.orderNumber}</span>
-                </div>
-                <div className="text-right">
-                  <span className="text-[9px] text-neutral-500 uppercase block">STATUS</span>
-                  <span className="bg-red-950 text-red-400 border border-red-900 px-2 py-0.5 rounded text-[10px] font-bold">
-                    PRODUCTION QUEUE
-                  </span>
-                </div>
-              </div>
-
-              <div className="space-y-1.5 text-neutral-300">
-                <div className="flex justify-between">
-                  <span className="text-neutral-500">Allocated VIN:</span>
-                  <span className="font-bold text-red-400">{createdOrder.vin}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-neutral-500">Configured Trim:</span>
-                  <span className="text-white font-bold">{createdOrder.buildSpec.powertrainName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-neutral-500">Exoskeleton Finish:</span>
-                  <span className="text-white">{createdOrder.buildSpec.finishName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-neutral-500">Delivery Hub:</span>
-                  <span className="text-white">{createdOrder.deliveryHub}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-neutral-500">Est. Delivery Window:</span>
-                  <span className="text-emerald-400 font-bold">{createdOrder.estimatedDelivery}</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-neutral-800 font-bold text-white">
-                  <span>Total Vehicle MSRP:</span>
-                  <span className="text-red-500">${createdOrder.totalPrice.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-neutral-400">
-                  <span>Deposit Paid Today:</span>
-                  <span className="text-white">$250.00 (Refundable)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
-              <button
-                type="button"
-                onClick={() => {
-                  cyberAudio.playClick(1200);
-                  onShareToChat(createdOrder.buildSpec);
-                  onClose();
-                }}
-                className="flex-1 py-3 bg-red-600 hover:bg-red-500 text-white font-bold uppercase tracking-wider rounded clip-chamfer flex items-center justify-center gap-2 shadow-red-glow-sm"
-              >
-                <Share2 className="w-4 h-4" />
-                <span>Broadcast Order to Chat</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={handlePrint}
-                className="px-4 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 rounded border border-neutral-800 flex items-center justify-center gap-1.5"
-              >
-                <Printer className="w-4 h-4" />
-                <span>Print Build Sheet</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded border border-neutral-800"
-              >
-                Done
-              </button>
-            </div>
-
+            <button
+              onClick={handleNextStep}
+              className="px-6 py-2.5 bg-zinc-200 hover:bg-white text-zinc-950 font-mono text-xs font-bold uppercase tracking-wider rounded-sm transition-all shadow-md flex items-center gap-2"
+            >
+              <span>{step === 3 ? 'Confirm & Place $250 Deposit' : 'Continue'}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         )}
 

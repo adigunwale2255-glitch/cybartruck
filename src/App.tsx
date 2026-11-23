@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { ModelLineup } from './components/ModelLineup';
 import { Customizer } from './components/Customizer';
 import { VehicleFeatures } from './components/VehicleFeatures';
 import { Gallery } from './components/Gallery';
@@ -10,6 +11,7 @@ import { ContactFeedback } from './components/ContactFeedback';
 import { Footer } from './components/Footer';
 import { UserProfileModal } from './components/UserProfileModal';
 import { MyOrdersModal } from './components/MyOrdersModal';
+import { OrderModal } from './components/OrderModal';
 import { UserProfile, BuildSpec, ChatMessage, OrderRecord } from './types';
 import { CURRENT_DEFAULT_USER, chatBroadcast } from './lib/supabase';
 
@@ -26,18 +28,18 @@ const INITIAL_SAMPLE_ORDER: OrderRecord = {
   depositAmount: 250,
   totalPrice: 104190,
   buildSpec: {
-    finishId: 'crimson',
-    finishName: 'Satin Crimson Red',
-    finishHex: '#b91c1c',
-    finishCategory: 'Signature Wrap',
+    finishId: 'stainless',
+    finishName: 'Raw 30X Stainless Steel',
+    finishHex: '#9ca3af',
+    finishCategory: 'Factory Exoskeleton',
     wheelsId: 'turbine-22',
     wheelsName: '22" Cyber Turbine Forged',
     wheelsPrice: 4200,
     powertrainId: 'cyberbeast',
     powertrainName: 'Cyberbeast Tri-Motor AWD',
     powertrainPrice: 99990,
-    interiorId: 'crimson-ambient',
-    interiorName: 'Red Cyberline Ambient',
+    interiorId: 'titanium-slate',
+    interiorName: 'Titanium Slate Exoskeleton Cabin',
     accessories: ['lightbar', 'tonneau'],
     totalPrice: 104190,
     timestamp: new Date().toISOString()
@@ -47,10 +49,30 @@ const INITIAL_SAMPLE_ORDER: OrderRecord = {
   estimatedDelivery: 'Q1 2027 (Priority Allocation)'
 };
 
+const DEFAULT_BUILD_SPEC: BuildSpec = {
+  finishId: 'stainless',
+  finishName: 'Raw 30X Stainless Steel',
+  finishHex: '#9ca3af',
+  finishCategory: 'Factory Exoskeleton',
+  wheelsId: 'turbine-22',
+  wheelsName: '22" Cyber Turbine Forged',
+  wheelsPrice: 4200,
+  powertrainId: 'cyberbeast',
+  powertrainName: 'Cyberbeast Tri-Motor AWD',
+  powertrainPrice: 99990,
+  interiorId: 'titanium-slate',
+  interiorName: 'Titanium Slate Exoskeleton Cabin',
+  accessories: ['lightbar', 'tonneau'],
+  totalPrice: 104190,
+  timestamp: new Date().toISOString()
+};
+
 export function App() {
   const [activeTab, setActiveTab] = useState<string>('home');
   const [showUserModal, setShowUserModal] = useState<boolean>(false);
   const [showOrdersModal, setShowOrdersModal] = useState<boolean>(false);
+  const [showCheckoutModal, setShowCheckoutModal] = useState<boolean>(false);
+  const [selectedModel, setSelectedModel] = useState<string>('cyberbeast');
 
   // Placed Orders State
   const [orders, setOrders] = useState<OrderRecord[]>(() => {
@@ -126,7 +148,7 @@ export function App() {
       senderId: currentUser.id,
       senderName: currentUser.displayName,
       senderAvatar: currentUser.avatarUrl,
-      content: `🎉 NEW RESERVATION PLACED! Just ordered a ${newOrder.buildSpec.powertrainName} in ${newOrder.buildSpec.finishName}!\nAssigned VIN: ${newOrder.vin}`,
+      content: `🎉 NEW RESERVATION PLACED! Just reserved a ${newOrder.buildSpec.powertrainName} in ${newOrder.buildSpec.finishName}!\nAssigned Production VIN: ${newOrder.vin}`,
       buildData: newOrder.buildSpec,
       orderData: {
         orderNumber: newOrder.orderNumber,
@@ -149,9 +171,9 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col font-sans selection:bg-red-600 selection:text-white">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans selection:bg-zinc-300 selection:text-black">
       
-      {/* Premium Navigation Header */}
+      {/* Official Website Navigation Header */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -160,9 +182,10 @@ export function App() {
         ordersCount={orders.length}
         onOpenUserModal={() => setShowUserModal(true)}
         onOpenOrdersModal={() => setShowOrdersModal(true)}
+        onOpenOrderCheckout={() => setShowCheckoutModal(true)}
       />
 
-      {/* Main Content Pane */}
+      {/* Main Website Content Pages */}
       <main className="flex-1">
         {activeTab === 'home' && (
           <>
@@ -179,20 +202,59 @@ export function App() {
                 setActiveTab('community');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
+              onOpenModels={() => {
+                setActiveTab('models');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenOrder={() => setShowCheckoutModal(true)}
             />
+            
+            {/* Embedded Fleet Model Comparison Section */}
+            <ModelLineup
+              onSelectModelToCustomize={(mId) => {
+                setSelectedModel(mId);
+                setActiveTab('customize');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenOrder={(mId) => {
+                setSelectedModel(mId);
+                setShowCheckoutModal(true);
+              }}
+            />
+
             <VehicleFeatures />
+            <Gallery onCustomizePrompt={() => setActiveTab('customize')} />
           </>
+        )}
+
+        {activeTab === 'models' && (
+          <div className="pt-16">
+            <ModelLineup
+              onSelectModelToCustomize={(mId) => {
+                setSelectedModel(mId);
+                setActiveTab('customize');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenOrder={(mId) => {
+                setSelectedModel(mId);
+                setShowCheckoutModal(true);
+              }}
+            />
+          </div>
         )}
 
         {activeTab === 'customize' && (
           <Customizer 
+            initialPowertrain={selectedModel}
             onShareToChat={handleShareToChat}
             onOrderPlaced={handleOrderPlaced}
           />
         )}
 
         {activeTab === 'features' && (
-          <VehicleFeatures />
+          <div className="pt-16">
+            <VehicleFeatures />
+          </div>
         )}
 
         {activeTab === 'gallery' && (
@@ -222,7 +284,7 @@ export function App() {
         )}
       </main>
 
-      {/* Global Footer */}
+      {/* Global Website Footer */}
       <Footer onNavigate={(tab) => {
         setActiveTab(tab);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -243,6 +305,23 @@ export function App() {
         onClose={() => setShowOrdersModal(false)}
         orders={orders}
         onInspectBuild={handleInspectBuild}
+        onShareToChat={handleShareToChat}
+      />
+
+      {/* Direct Navbar Reserve Checkout Modal */}
+      <OrderModal
+        isOpen={showCheckoutModal}
+        onClose={() => setShowCheckoutModal(false)}
+        buildSpec={{
+          ...DEFAULT_BUILD_SPEC,
+          powertrainId: selectedModel,
+          powertrainName: selectedModel === 'cyberbeast' 
+            ? 'Cyberbeast Tri-Motor AWD' 
+            : selectedModel === 'all-wheel-drive' 
+            ? 'All-Wheel Drive Dual Motor' 
+            : 'Rear-Wheel Drive Single Motor'
+        }}
+        onOrderPlaced={handleOrderPlaced}
         onShareToChat={handleShareToChat}
       />
 
